@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>F1 2026 — Season Overview</title>
+  <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="translations.js?v=1"></script>
+</head>
+
+<body>
+  <div id="loading">
+    <div class="load-logo">
+      <svg viewBox="0 0 120 30" style="height: 48px; width: auto; fill: var(--accent)">
+        <path
+          d="M101.086812,30 L101.711812,30 L101.711812,27.106875 L101.722437,27.106875 L102.761812,30 L103.302437,30 L104.341812,27.106875 L104.352437,27.106875 L104.352437,30 L104.977437,30 L104.977437,26.25125 L104.063687,26.25125 L103.055562,29.18625 L103.044937,29.18625 L102.011187,26.25125 L101.086812,26.25125 L101.086812,30 Z M97.6274375,26.818125 L98.8136875,26.818125 L98.8136875,30 L99.4699375,30 L99.4699375,26.818125 L100.661812,26.818125 L100.661812,26.25125 L97.6274375,26.25125 L97.6274375,26.818125 Z M89.9999375,30 L119.999937,0 L101.943687,0 L71.9443125,30 L89.9999375,30 Z M85.6986875,13.065 L49.3818125,13.065 C38.3136875,13.065 36.3768125,13.651875 31.6361875,18.3925 C27.2024375,22.82625 20.0005625,30 20.0005625,30 L35.7324375,30 L39.4855625,26.246875 C41.9530625,23.779375 43.2255625,23.52375 48.4068125,23.52375 L75.2405625,23.52375 L85.6986875,13.065 Z M31.1518125,16.253125 C27.8774375,19.3425 20.7530625,26.263125 16.9130625,30 L-6.25e-05,30 C-6.25e-05,30 13.5524375,16.486875 21.0849375,9.0725 C28.8455625,1.685 32.7143125,0 46.9486875,0 L98.7643125,0 L87.5449375,11.21875 L48.0011875,11.21875 C37.9993125,11.21875 35.7518125,11.911875 31.1518125,16.253125 Z">
+        </path>
+      </svg>
+    </div>
+    <div class="load-track">
+      <div class="load-fill" id="load-fill"></div>
+    </div>
+    <div class="load-label">Loading Season Data</div>
+  </div>
+
+  <nav>
+    <div class="nav-logo">
+      <svg viewBox="0 0 120 30" style="height: 22px; width: auto; fill: #fff">
+        <path
+          d="M101.086812,30 L101.711812,30 L101.711812,27.106875 L101.722437,27.106875 L102.761812,30 L103.302437,30 L104.341812,27.106875 L104.352437,27.106875 L104.352437,30 L104.977437,30 L104.977437,26.25125 L104.063687,26.25125 L103.055562,29.18625 L103.044937,29.18625 L102.011187,26.25125 L101.086812,26.25125 L101.086812,30 Z M97.6274375,26.818125 L98.8136875,26.818125 L98.8136875,30 L99.4699375,30 L99.4699375,26.818125 L100.661812,26.818125 L100.661812,26.25125 L97.6274375,26.25125 L97.6274375,26.818125 Z M89.9999375,30 L119.999937,0 L101.943687,0 L71.9443125,30 L89.9999375,30 Z M85.6986875,13.065 L49.3818125,13.065 C38.3136875,13.065 36.3768125,13.651875 31.6361875,18.3925 C27.2024375,22.82625 20.0005625,30 20.0005625,30 L35.7324375,30 L39.4855625,26.246875 C41.9530625,23.779375 43.2255625,23.52375 48.4068125,23.52375 L75.2405625,23.52375 L85.6986875,13.065 Z M31.1518125,16.253125 C27.8774375,19.3425 20.7530625,26.263125 16.9130625,30 L-6.25e-05,30 C-6.25e-05,30 13.5524375,16.486875 21.0849375,9.0725 C28.8455625,1.685 32.7143125,0 46.9486875,0 L98.7643125,0 L87.5449375,11.21875 L48.0011875,11.21875 C37.9993125,11.21875 35.7518125,11.911875 31.1518125,16.253125 Z">
+        </path>
+      </svg>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#hero" data-i18n="nav_globe">Globe</a></li>
+      <li><a href="#calendar" data-i18n="nav_calendar">Calendar</a></li>
+      <li><a href="#teams" data-i18n="nav_teams">Teams</a></li>
+      <li><a href="#regulations" data-i18n="nav_regulations">Regulations</a></li>
+      <li><a href="#predictions" data-i18n="nav_predictions">Predictions</a></li>
+    </ul>
+    <div class="lang-switch">
+      <button id="lang-toggle" onclick="toggleLanguage()">KR</button>
+    </div>
+  </nav>
+
+  <div id="race-tooltip">
+    <div class="tt-round">
+      <img class="tt-flag" id="tt-flag" src="" alt="" />
+      <span id="tt-round-txt">Round 01</span>
+    </div>
+    <div class="tt-name" id="tt-name"></div>
+    <div class="tt-official" id="tt-official"></div>
+    <div class="tt-date">
+      <i data-lucide="calendar-days" style="width: 12px; height: 12px; stroke: var(--orange)"></i>
+      <span id="tt-date"></span>
+    </div>
+    <div class="tt-sprint" id="tt-sprint" style="display: none">
+      <i data-lucide="zap" style="width: 10px; height: 10px; stroke: var(--orange)"></i>
+      <span data-i18n="tt_sprint">Sprint Weekend</span>
+    </div>
+  </div>
+
+  <section id="hero">
+    <canvas id="globe-canvas"></canvas>
+    <div class="hero-vignette"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow" data-i18n="hero_eyebrow">
+        The 2026 FIA Formula One World Championship
+      </div>
+      <div class="hero-headline" data-i18n="hero_headline">WORLD<br />TOUR</div>
+      <div class="hero-sub">
+        <span data-i18n="hero_races">24 Races</span>
+        <div class="hero-sub-div"></div>
+        <span data-i18n="hero_countries">21 Countries</span>
+        <div class="hero-sub-div"></div>
+        <span data-i18n="hero_continents">5 Continents</span>
+      </div>
+    </div>
+    <div class="scroll-cue">
+      <span class="scroll-cue-label" data-i18n="hero_scroll">Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <section id="calendar" class="section-wrap alt">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2 class="sec-title" data-i18n="sec_calendar_title">Race Calendar</h2>
+      <div class="sec-rule"></div>
+    </div>
+    <p class="sec-intro" data-i18n="sec_calendar_intro">
+      24 Grands Prix across five continents. The season opens in Melbourne on
+      8 March and concludes at Yas Marina on 6 December. Six rounds feature
+      the Sprint format including China, Miami, Canada, Great Britain,
+      Netherlands, and Singapore.
+    </p>
+    <div class="cal-grid" id="cal-grid"></div>
+  </section>
+
+  <section id="teams" class="section-wrap">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2 class="sec-title" data-i18n="sec_teams_title">Teams &amp; Drivers</h2>
+      <div class="sec-rule"></div>
+    </div>
+    <p class="sec-intro" data-i18n="sec_teams_intro">
+      Eleven constructors take the grid for the first time since 2016. Audi
+      and Cadillac join as new manufacturers, while Honda, Ford, and Audi
+      bring entirely new power unit programmes to the most comprehensive
+      regulation overhaul in the sport's history.
+    </p>
+    <div class="info-banner">
+      <div class="info-banner-icon">
+        <i data-lucide="cpu" style="width: 18px; height: 18px; stroke: var(--accent)"></i>
+      </div>
+      <div>
+        <strong data-i18n="teams_banner_strong">2026 Technical Regulations: New Era</strong>
+        <p data-i18n="teams_banner_p">
+          All-new power units, active aerodynamics and chassis rules. Three
+          new engine manufacturers: Honda (Aston Martin), Ford/RBPT (Red Bull
+          &amp; Racing Bulls), and Audi. 100% sustainable fuel mandatory. DRS
+          replaced by Overtake Mode and Active Aero.
+        </p>
+      </div>
+    </div>
+    <div class="teams-grid" id="teams-grid"></div>
+  </section>
+
+  <section id="regulations" class="section-wrap alt">
+    <div class="sec-head">
+      <span class="sec-num">04</span>
+      <h2 class="sec-title" data-i18n="sec_reg_title">2026 Regulations</h2>
+      <div class="sec-rule"></div>
+    </div>
+    <p class="sec-intro" data-i18n="sec_reg_intro">
+      The 2026 season marks the dawn of a "Nimbly Car" philosophy, with
+      machines that are lighter, smaller, and more efficient. A radical shift
+      in power unit logic and aerodynamics aims to create the closest racing
+      in history.
+    </p>
+
+    <div class="reg-grid">
+      <div class="reg-card">
+        <div class="reg-icon-box">
+          <i data-lucide="wind" style="width: 20px; height: 20px"></i>
+        </div>
+        <h3 data-i18n="reg_aero_title">Active Aerodynamics</h3>
+        <p data-i18n="reg_aero_p">
+          DRS is replaced by a dual-mode active aero system. Rear and front
+          wings adjust dynamically to balance straight-line efficiency and
+          cornering grip.
+        </p>
+        <ul class="reg-feature-list">
+          <li class="reg-feature-item">
+            <i data-lucide="check" style="width: 12px; height: 12px"></i>
+            <span data-i18n="reg_aero_li1">X-MODE: Low Drag / High Speed</span>
+          </li>
+          <li class="reg-feature-item">
+            <i data-lucide="check" style="width: 12px; height: 12px"></i>
+            <span data-i18n="reg_aero_li2">Z-MODE: Max Downforce</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="reg-card">
+        <div class="reg-icon-box">
+          <i data-lucide="zap" style="width: 20px; height: 20px"></i>
+        </div>
+        <h3 data-i18n="reg_overtake_title">Overtake Mode</h3>
+        <p data-i18n="reg_overtake_p">
+          Replacing the binary DRS gap, the "Manual Override Mode" grants
+          following drivers additional battery energy deployment to sustain
+          high speeds for longer.
+        </p>
+        <ul class="reg-feature-list">
+          <li class="reg-feature-item">
+            <i data-lucide="check" style="width: 12px; height: 12px"></i>
+            <span data-i18n="reg_overtake_li1">350kW Surge Capacity</span>
+          </li>
+          <li class="reg-feature-item">
+            <i data-lucide="check" style="width: 12px; height: 12px"></i>
+            <span data-i18n="reg_overtake_li2">Strategic Energy Management</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="reg-card">
+        <div class="reg-icon-box">
+          <i data-lucide="battery-charging" style="width: 20px; height: 20px"></i>
+        </div>
+        <h3 data-i18n="reg_hybrid_title">Hybrid 2.0 Power</h3>
+        <p data-i18n="reg_hybrid_p">
+          The MGU-H is removed. Electrical power leaps from 120kW to 350kW,
+          creating a near 50/50 split between internal combustion and electric
+          energy.
+        </p>
+        <ul class="reg-feature-list">
+          <li class="reg-feature-item">
+            <i data-lucide="check" style="width: 12px; height: 12px"></i>
+            <span data-i18n="reg_hybrid_li1">100% Sustainable Fuel</span>
+          </li>
+          <li class="reg-feature-item">
+            <i data-lucide="check" style="width: 12px; height: 12px"></i>
+            <span data-i18n="reg_hybrid_li2">Triple Energy Recovery</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="live-standings" class="section-wrap alt">
+    <div class="sec-head">
+      <span class="sec-num">05</span>
+      <h2 class="sec-title" data-i18n="sec_live_title">Live 2024 Standings</h2>
+      <div class="sec-rule"></div>
+    </div>
+    <p class="sec-intro" data-i18n="sec_live_intro">
+      Real-time driver rankings automatically fetched from the Jolpica F1 API.
+      (Showing current season data since 2026 data is not yet available).
+    </p>
+
+    <style>
+      .standings-container {
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        margin-top: 30px;
+      }
+
+      .st-header {
+        display: grid;
+        grid-template-columns: 50px 3fr 2fr 80px;
+        padding: 16px 20px;
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        font-family: "Space Mono", monospace;
+        font-size: 11px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .st-row {
+        display: grid;
+        grid-template-columns: 50px 3fr 2fr 80px;
+        padding: 14px 20px;
+        border-bottom: 1px solid var(--border);
+        align-items: center;
+        transition: background 0.2s;
+      }
+
+      .st-row:last-child {
+        border-bottom: none;
+      }
+
+      .st-row:hover {
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .st-pos {
+        font-family: "Space Mono", monospace;
+        font-size: 14px;
+        color: var(--accent);
+        font-weight: 700;
+      }
+    </style>
+
+    <div class="standings-container" id="standings-container">
+      <div style="
+            padding: 40px;
+            text-align: center;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-family: &quot;Space Mono&quot;, monospace;
+          ">
+        <i data-lucide="loader-2" style="animation: spin 1s linear infinite"></i>
+        <span data-i18n="live_fetching">Fetching live API data...</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="predictions" class="section-wrap">
+    <div class="sec-head">
+      <span class="sec-num">06</span>
+      <h2 class="sec-title" data-i18n="sec_pred_title">2026 Predictions</h2>
+      <div class="sec-rule"></div>
+    </div>
+    <p class="sec-intro" data-i18n="sec_pred_intro">
+      New regulations historically reshuffle the grid. Mercedes enter as
+      pre-season favourites following strong testing performances from Russell
+      and Antonelli, with McLaren and Red Bull as their closest rivals.
+    </p>
+    <div class="pred-layout">
+      <div class="pred-panel">
+        <div class="pred-head">
+          <i data-lucide="user" style="width: 13px; height: 13px; stroke: var(--muted)"></i><span
+            data-i18n="pred_drv_title">Drivers Championship</span>
+        </div>
+        <div id="drv-pred"></div>
+      </div>
+      <div class="pred-panel">
+        <div class="pred-head">
+          <i data-lucide="trophy" style="width: 13px; height: 13px; stroke: var(--muted)"></i><span
+            data-i18n="pred_con_title">Constructors Championship</span>
+        </div>
+        <div id="con-pred"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-brand">
+      <svg viewBox="0 0 120 30" style="height: 22px; width: auto; fill: var(--muted2)">
+        <path
+          d="M101.086812,30 L101.711812,30 L101.711812,27.106875 L101.722437,27.106875 L102.761812,30 L103.302437,30 L104.341812,27.106875 L104.352437,27.106875 L104.352437,30 L104.977437,30 L104.977437,26.25125 L104.063687,26.25125 L103.055562,29.18625 L103.044937,29.18625 L102.011187,26.25125 L101.086812,26.25125 L101.086812,30 Z M97.6274375,26.818125 L98.8136875,26.818125 L98.8136875,30 L99.4699375,30 L99.4699375,26.818125 L100.661812,26.818125 L100.661812,26.25125 L97.6274375,26.25125 L97.6274375,26.818125 Z M89.9999375,30 L119.999937,0 L101.943687,0 L71.9443125,30 L89.9999375,30 Z M85.6986875,13.065 L49.3818125,13.065 C38.3136875,13.065 36.3768125,13.651875 31.6361875,18.3925 C27.2024375,22.82625 20.0005625,30 20.0005625,30 L35.7324375,30 L39.4855625,26.246875 C41.9530625,23.779375 43.2255625,23.52375 48.4068125,23.52375 L75.2405625,23.52375 L85.6986875,13.065 Z M31.1518125,16.253125 C27.8774375,19.3425 20.7530625,26.263125 16.9130625,30 L-6.25e-05,30 C-6.25e-05,30 13.5524375,16.486875 21.0849375,9.0725 C28.8455625,1.685 32.7143125,0 46.9486875,0 L98.7643125,0 L87.5449375,11.21875 L48.0011875,11.21875 C37.9993125,11.21875 35.7518125,11.911875 31.1518125,16.253125 Z">
+        </path>
+      </svg>
+    </div>
+
+    <div class="footer-credits" style="
+          color: var(--muted2);
+          font-size: 11px;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          text-align: center;
+        ">
+      <p style="margin-bottom: 12px">
+        <span data-i18n="footer_designed">Designed and developed by</span>
+        <span style="color: var(--light); font-weight: 700">Suraj Kumar</span>
+      </p>
+      <p data-i18n="footer_copy" style="
+            opacity: 0.5;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.5;
+          ">
+        &copy; 2026 Formula One World Championship Limited. F1, FORMULA 1, FIA
+        FORMULA ONE WORLD CHAMPIONSHIP, GRAND PRIX and related marks are
+        trademarks of Formula One Licensing B.V. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <script src="script.js?v=1"></script>
+</body>
+
+</html>
